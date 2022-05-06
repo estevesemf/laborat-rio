@@ -7,44 +7,48 @@ int nthreads;
 long int dim;
 int *vetor;
 
-struct mem
-  {
+typedef struct{
    long int menor;
    long int maior;
-  };
+  } mem ;
+
 //fluxo das threads
 void* tarefa (void* arg) {
    long int id = (long int) arg;
    long int tam_bloco = dim/nthreads;
    long int ini = id*tam_bloco;
    long int fim = ini+tam_bloco;
-   struct mem local ;
-   local.maior = 0;
-   local.menor = 10000000;
+    mem memlocal ;
+   memlocal.maior = 0;
+   memlocal.menor = 10000000;
     if (id==nthreads-1) fim=dim; //trata sobra
    for(long int i=ini; i<fim; i++){
-      if(local.maior < vetor[i]){
-          local.maior = vetor[i];
+      if(memlocal.maior < vetor[i]){
+          memlocal.maior = vetor[i];
       }
-      if(local.menor > vetor[i]){
-        local.menor = vetor[i];
+      if(memlocal.menor > vetor[i]){
+        memlocal.menor = vetor[i];
       }
    }
-   pthread_exit((void*)local);
+
+   pthread_exit((void*)memlocal);
+
 }
 
 //fluxo principal
 int main(int argc, char *argv[]) {
-   long int menor_seq=,maior_seq ;
+   long int menor_seq,maior_seq ;
    long int maior_conc,menor_conc ;
    double ini, fim; //tomada de tempo
    pthread_t *tid;
-   struct mem retorno;
+    mem retorno;
+   long int retorno;
    retorno.maior = 0;
    retorno.menor = 0;
+   maior_seq = 0;
+   menor_seq = 1000000;
    maior_conc = 0;
-   menor_conc = 1000000;
-
+   menor_conc =1000000;
    //verifica os parametros
    if(argc<3){
       fprintf(stderr, "Digite: %s <dimensao do vetor> <numero de threads>\n", argv[0]);
@@ -100,6 +104,7 @@ int main(int argc, char *argv[]) {
       if(retorno.menor<menor_conc){
         menor_conc=retorno.menor;
       }
+
    }
    GET_TIME(fim);
    printf("Tempo-Conc: %lf\n", fim-ini);
