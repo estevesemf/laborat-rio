@@ -43,9 +43,8 @@ int main(int argc, char *argv[]) {
    double *vetseq; //vetor sequencial
    double ini, fim,inis,fims; //tomada de tempo
    pthread_t *tid; //identificadores das threads no sistema
-   int t,*id;
-    int veri;
-       //recebe e valida os parametros de entrada (dimensao do vetor, numero de threads)
+   int t,*id, veri;
+    //recebe e valida os parametros de entrada (dimensao do vetor, numero de threads)
    if(argc < 3) {
        fprintf(stderr, "Digite: %s <dimensao do vetor> <numero threads>\n", argv[0]);
        return 1; 
@@ -94,8 +93,7 @@ int main(int argc, char *argv[]) {
   pthread_mutex_destroy(&mutex);
 
   GET_TIME(fim);
-  printf("Tempo Sequencial = %lf\n", fims-inis);
-  printf("Tempo Concorrente = %lf\n", fim-ini);
+  printf("Ganho de Tempo = %lf\n", (fims-inis)/(fim-ini));
     veri=0;
     for(int i=0; i<dim; i++) {
         if(vetseq[i]==vetconc[i])
