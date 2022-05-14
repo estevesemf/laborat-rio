@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
    double ini, fim,inis,fims; //tomada de tempo
    pthread_t *tid; //identificadores das threads no sistema
    int t,*id;
-
+    int veri;
        //recebe e valida os parametros de entrada (dimensao do vetor, numero de threads)
    if(argc < 3) {
        fprintf(stderr, "Digite: %s <dimensao do vetor> <numero threads>\n", argv[0]);
@@ -94,9 +94,14 @@ int main(int argc, char *argv[]) {
   pthread_mutex_destroy(&mutex);
 
   GET_TIME(fim);
-  printf("Tempo = %lf\n", fims-inis);
-  printf("Tempo = %lf\n", fim-ini);
-/*  printf("Vetor Sequencial\n");
+  printf("Tempo Sequencial = %lf\n", fims-inis);
+  printf("Tempo Concorrente = %lf\n", fim-ini);
+    veri=0;
+    for(int i=0; i<dim; i++) {
+        if(vetseq[i]==vetconc[i])
+            veri++;
+    }
+ /* printf("Vetor Sequencial\n");
     for(int i=0; i<dim; i++) {
         printf("%lf ", vetseq[i]);
     }
@@ -105,6 +110,8 @@ int main(int argc, char *argv[]) {
         printf("%lf ", vetconc[i]);
     }
 */
+    if(veri==dim)
+        printf("Correto \n");
   pthread_exit(NULL);
     return 0;
 }
