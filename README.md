@@ -30,3 +30,6 @@ Ganho de Tempo = 0.136973
 
 100000000 4
 Ganho de Tempo = 0.059003
+
+
+Fica claro com os números que o ganho de tempo diminui proporcionalmente com o numero de threads
