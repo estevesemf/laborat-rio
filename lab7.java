@@ -56,7 +56,7 @@ class S {
  //classe da aplicacao
  class par {
     static final int N = 4;
-    static final int tam = 50;
+    static final int tam = 16;
     public static void main (String[] args) {
        //reserva espaço para um vetor de threads
        Thread[] threads = new Thread[N];
