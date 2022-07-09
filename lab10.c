@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
 int dim, te,tl;
@@ -7,8 +7,13 @@ sem_t escrita,mutex;
 int leitores = 0 ;
 int *v;
 
+typedef struct{
+   int id1; //identificador do elemento que a thread ira processar
+   int id2; //identificador do elemento que a thread ira processar
 
-void* leitora(void arg){
+} tArgs;
+
+void* leitora(void *arg){
 tArgs *args = (tArgs*) arg;
 sem_wait(&mutex);
 leitores++;
@@ -20,14 +25,14 @@ sem_wait(&mutex);
 leitores--;
 if (leitores==0)
     sem_post(&escrita);
-sem_post(&mutex);   
+sem_post(&mutex);
 }
 
-void* escritora(void arg){
+void* escritora(void *arg){
 tArgs *args = (tArgs*) arg;
 sem_wait(&escrita);
 printf("Escritor n: %d liberado \n",args->id2);
-sem_post(&escrita); 
+sem_post(&escrita);
 }
 //fluxo principal
 int main(int argc, char* argv[]) {
@@ -42,7 +47,7 @@ int main(int argc, char* argv[]) {
    }
    tl = atoi(argv[1]);
    te = atoi(argv[2]);
-  
+
   dim = tl + te ;
    //alocacao de memoria para as estruturas de dados
    v = (int *) malloc(sizeof(int) * dim);
@@ -81,14 +86,13 @@ int main(int argc, char* argv[]) {
       pthread_join(*(tid2+i), NULL);
    }
 
-   
-   free(args2);
-   free(args1);
+
+   free(args);
    free(tid1);
    free(tid2);
-    
- 
-   //printf 
+
+
+   //printf
    printf("\n");
 
    return 0;
