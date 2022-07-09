@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
    pthread_t *tid1,*tid2; //identificadores das threads no sistema
    tArgs *args ; //identificadores locais das threads e dimensao
    sem_init(&mutex,0,1);
-   sem_init(&escrita,0,0);
+   sem_init(&escrita,0,1);
    //leitura e avaliacao dos parametros de entrada
    if(argc<3) {
       printf("Digite: %s  <threads leitoras> <threads escritoras> \n", argv[0]);
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
    //alocacao das estruturas
     tid1 = (pthread_t*) malloc(sizeof(pthread_t)*tl); // threads leitoras
    if(tid1==NULL) {puts("ERRO--malloc"); return 2;}    // threads escritoras
-    tid2 = (pthread_t*) malloc(sizeof(pthread_t)*tl);
+    tid2 = (pthread_t*) malloc(sizeof(pthread_t)*te);
    if(tid1==NULL) {puts("ERRO--malloc"); return 2;}
     args = (tArgs*) malloc(sizeof(tArgs)*dim); // numero da thrad leitor pra passar nos parametros
    if(args==NULL) {puts("ERRO--malloc"); return 2;}
@@ -87,9 +87,8 @@ int main(int argc, char* argv[]) {
    }
 
 
-   free(args);
-   free(tid1);
-   free(tid2);
+   //free(tid1);
+   //free(tid2);
 
 
    //printf
